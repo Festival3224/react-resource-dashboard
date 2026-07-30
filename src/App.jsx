@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import EmployeesTable from './components/EmployeesTable'
 import { initialEmployees } from './data/employees'
+import ProjectsTable from './components/ProjectsTable'
+import { initialProjects } from './data/projects'
 import './App.css'
 
 function App() {
   const [activeView, setActiveView] = useState('employees')
   const [employees] = useState(initialEmployees)
+  const [projects] = useState(initialProjects)
 
   const isEmployees = activeView === 'employees'
 
@@ -48,7 +51,7 @@ function App() {
           {isEmployees ? (
             <EmployeesTable employees={employees} />
           ) : (
-            <p>The project table will be added here.</p>
+            <ProjectsTable projects={projects} />
           )}
         </section>
 
