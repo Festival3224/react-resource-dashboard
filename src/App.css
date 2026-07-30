@@ -93,6 +93,38 @@ button {
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
 }
 
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.data-table th {
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.data-table td {
+  font-size: 15px;
+}
+
+.data-table tbody tr:hover {
+  background: #f8fafc;
+}
+
 @media (max-width: 760px) {
   .dashboard {
     grid-template-columns: 1fr;
@@ -115,3 +147,5 @@ button {
     flex-direction: column;
   }
 }
+
+

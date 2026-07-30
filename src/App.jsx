@@ -1,8 +1,12 @@
 import { useState } from 'react'
+import EmployeesTable from './components/EmployeesTable'
+import { initialEmployees } from './data/employees'
 import './App.css'
 
 function App() {
   const [activeView, setActiveView] = useState('employees')
+  const [employees] = useState(initialEmployees)
+
   const isEmployees = activeView === 'employees'
 
   return (
@@ -41,13 +45,13 @@ function App() {
         </header>
 
         <section className="content-card">
-          <p>
-            {isEmployees
-              ? 'The employee table will be added here.'
-              : 'The project table will be added here.'}
-          </p>
+          {isEmployees ? (
+            <EmployeesTable employees={employees} />
+          ) : (
+            <p>The project table will be added here.</p>
+          )}
         </section>
-        
+
       </main>
     </div>
   )
