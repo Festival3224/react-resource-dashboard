@@ -1,16 +1,36 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import EmployeesTable from './components/EmployeesTable'
 import { initialEmployees } from './data/employees'
 import ProjectsTable from './components/ProjectsTable'
 import { initialProjects } from './data/projects'
+import AddEmployeeForm from './components/AddEmployeeForm'
 import './App.css'
 
 function App() {
   const [activeView, setActiveView] = useState('employees')
-  const [employees] = useState(initialEmployees)
+  //const [employees] = useState(initialEmployees)
+  const [employees, setEmployees] = useState(() => {
+    const savedEmployees = localStorage.getItem('employees')
+
+    return savedEmployees
+      ? JSON.parse(savedEmployees)
+      : initialEmployees
+  })
+
   const [projects] = useState(initialProjects)
 
   const isEmployees = activeView === 'employees'
+
+  useEffect(() => {
+    localStorage.setItem('employees', JSON.stringify(employees))
+  }, [employees])
+
+  function handleAddEmployee(newEmployee) {
+    setEmployees((currentEmployees) => [
+      ...currentEmployees,
+      newEmployee,
+    ])
+  }
 
   return (
     <div className="dashboard">
@@ -49,7 +69,10 @@ function App() {
 
         <section className="content-card">
           {isEmployees ? (
-            <EmployeesTable employees={employees} />
+            <>
+              <AddEmployeeForm onAddEmployee={handleAddEmployee} />
+              <EmployeesTable employees={employees} />
+            </>
           ) : (
             <ProjectsTable projects={projects} />
           )}

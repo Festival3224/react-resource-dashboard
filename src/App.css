@@ -125,6 +125,39 @@ button {
   background: #f8fafc;
 }
 
+.employee-form {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(140px, 1fr)) auto;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.employee-form input {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  color: #1f2937;
+}
+
+.employee-form input:focus {
+  border-color: #2563eb;
+  outline: 2px solid rgba(37, 99, 235, 0.15);
+}
+
+@media (max-width: 1050px) {
+  .employee-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .employee-form {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 760px) {
   .dashboard {
     grid-template-columns: 1fr;
