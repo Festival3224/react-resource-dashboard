@@ -8,6 +8,8 @@ import './App.css'
 
 function App() {
   const [activeView, setActiveView] = useState('employees')
+  const [isEmployeeFormOpen, setIsEmployeeFormOpen] = useState(false)
+
   //const [employees] = useState(initialEmployees)
   const [employees, setEmployees] = useState(() => {
     const savedEmployees = localStorage.getItem('employees')
@@ -30,6 +32,8 @@ function App() {
       ...currentEmployees,
       newEmployee,
     ])
+
+    setIsEmployeeFormOpen(false)
   }
 
   return (
@@ -47,7 +51,10 @@ function App() {
 
           <button
             className={`nav-button ${!isEmployees ? 'active' : ''}`}
-            onClick={() => setActiveView('projects')}
+            onClick={() => {
+              setActiveView('projects')
+              setIsEmployeeFormOpen(false)
+            }}
           >
             Projects
           </button>
@@ -61,8 +68,19 @@ function App() {
             <h2>Employees</h2>
           </div>
 
-          <button className="primary-button">
-            {isEmployees ? 'Add employee' : 'Add project'}
+          <button
+            className="primary-button"
+            onClick={() => {
+              if (isEmployees) {
+                setIsEmployeeFormOpen((currentValue) => !currentValue)
+              }
+            }}
+          >
+            {isEmployees
+              ? isEmployeeFormOpen
+                ? 'Close form'
+                : 'Add employee'
+              : 'Add project'}
           </button>
 
         </header>
@@ -70,7 +88,10 @@ function App() {
         <section className="content-card">
           {isEmployees ? (
             <>
-              <AddEmployeeForm onAddEmployee={handleAddEmployee} />
+              {isEmployeeFormOpen && (
+                <AddEmployeeForm onAddEmployee={handleAddEmployee} />
+              )}
+
               <EmployeesTable employees={employees} />
             </>
           ) : (
