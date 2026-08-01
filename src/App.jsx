@@ -36,6 +36,12 @@ function App() {
     setIsEmployeeFormOpen(false)
   }
 
+  function handleDeleteEmployee(employeeId) {
+    setEmployees((currentEmployees) =>
+      currentEmployees.filter((employee) => employee.id !== employeeId)
+    )
+  }
+
   return (
     <div className="dashboard">
       <aside className="sidebar">
@@ -92,7 +98,10 @@ function App() {
                 <AddEmployeeForm onAddEmployee={handleAddEmployee} />
               )}
 
-              <EmployeesTable employees={employees} />
+              <EmployeesTable
+                employees={employees}
+                onDeleteEmployee={handleDeleteEmployee}
+              />
             </>
           ) : (
             <ProjectsTable projects={projects} />
