@@ -97,27 +97,18 @@ function App() {
             <h2>{isEmployees ? 'Employees' : 'Projects'}</h2>
           </div>
 
-          <button
-            className="primary-button"
-            onClick={() => {
-              if (!isEmployees) {
-                return
-              }
-
-              if (isEmployeeFormOpen) {
-                handleCloseEmployeeForm()
-              } else {
-                setEditingEmployee(null)
-                setIsEmployeeFormOpen(true)
-              }
-            }}
-          >
-            {isEmployees
-              ? isEmployeeFormOpen
-                ? 'Close form'
-                : 'Add employee'
-              : 'Add project'}
-          </button>
+           <button
+             className="primary-button"
+             onClick={() => {
+               if (isEmployees) {
+                 setEditingEmployee(null)
+                 setIsEmployeeFormOpen(true)
+               }
+             }}
+           >
+             {isEmployees ? 'Add employee' : 'Add project'}
+           </button>
+          
         </header>
 
         <section className="content-card">

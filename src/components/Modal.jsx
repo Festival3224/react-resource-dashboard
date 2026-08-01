@@ -7,33 +7,33 @@ function Modal({ title, children, onClose }) {
 
   return (
     <div
-      className="modal-backdrop"
+      className="drawer-backdrop"
       role="presentation"
       onMouseDown={handleBackdropClick}
     >
-      <section
-        className="modal"
+      <aside
+        className="drawer"
         role="dialog"
         aria-modal="true"
-        aria-labelledby="modal-title"
+        aria-labelledby="drawer-title"
       >
-        <header className="modal-header">
-          <h2 id="modal-title">{title}</h2>
+        <header className="drawer-header">
+          <h2 id="drawer-title">{title}</h2>
 
           <button
             type="button"
-            className="modal-close-button"
-            aria-label="Close modal"
+            className="drawer-close-button"
+            aria-label="Close form"
             onClick={onClose}
           >
             ×
           </button>
         </header>
 
-        <div className="modal-content">
+        <div className="drawer-content">
           {children}
         </div>
-      </section>
+      </aside>
     </div>
   )
 }
