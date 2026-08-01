@@ -1,11 +1,27 @@
 import { useState } from 'react'
 
-function AddEmployeeForm({ onAddEmployee }) {
-  const [formData, setFormData] = useState({
-    name: '',
-    role: '',
-    location: '',
-    availability: '',
+const emptyFormData = {
+  name: '',
+  role: '',
+  location: '',
+  availability: '',
+}
+
+function AddEmployeeForm({
+  employee,
+  onSaveEmployee,
+  onCancel,
+}) {
+  const [formData, setFormData] = useState(() => {
+    if (employee) {
+        return {
+            name: employee.name,
+            role: employee.role,
+            location: employee.location,
+            availability: String(employee.availability),
+        }
+    }
+    return emptyFormData
   })
 
   function handleChange(event) {
@@ -29,22 +45,15 @@ function AddEmployeeForm({ onAddEmployee }) {
       return
     }
 
-    const newEmployee = {
-      id: crypto.randomUUID(),
+    const employeeData = {
+      id: employee?.id ?? crypto.randomUUID(),
       name: formData.name.trim(),
       role: formData.role.trim(),
       location: formData.location.trim(),
       availability: Number(formData.availability),
     }
 
-    onAddEmployee(newEmployee)
-
-    setFormData({
-      name: '',
-      role: '',
-      location: '',
-      availability: '',
-    })
+    onSaveEmployee(employeeData)
   }
 
   return (
@@ -83,9 +92,19 @@ function AddEmployeeForm({ onAddEmployee }) {
         onChange={handleChange}
       />
 
-      <button type="submit" className="primary-button">
-        Save employee
-      </button>
+      <div className="form-actions">
+        <button type="submit" className="primary-button">
+          {employee ? 'Save changes' : 'Save employee'}
+        </button>
+
+        <button
+          type="button"
+          className="secondary-button"
+          onClick={onCancel}
+        >
+          Cancel
+        </button>
+      </div>
     </form>
   )
 }

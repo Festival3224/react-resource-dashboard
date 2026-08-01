@@ -193,3 +193,24 @@ button {
 .delete-button:hover {
   background: #fee2e2;
 }
+
+.form-actions,
+.table-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.secondary-button,
+.edit-button {
+  padding: 8px 12px;
+  border: 1px solid #9ca3af;
+  border-radius: 6px;
+  background: transparent;
+  color: #374151;
+  cursor: pointer;
+}
+
+.secondary-button:hover,
+.edit-button:hover {
+  background: #f3f4f6;
+}

@@ -1,4 +1,8 @@
-function EmployeesTable({ employees, onDeleteEmployee }) {
+function EmployeesTable({
+     employees,
+     onEditEmployee,
+     onDeleteEmployee
+   }) {
   return (
     <div className="table-wrapper">
       <table className="data-table">
@@ -20,13 +24,23 @@ function EmployeesTable({ employees, onDeleteEmployee }) {
                   <td>{employee.location}</td>
                   <td>{employee.availability}%</td>
                   <td>
-                      <button
-                          type="button"
-                          className="delete-button"
-                          onClick={() => onDeleteEmployee(employee.id)}
-                      >
-                          Delete
-                      </button>
+                      <div className="table-actions">
+                          <button
+                              type="button"
+                              className="edit-button"
+                              onClick={() => onEditEmployee(employee)}
+                          >
+                              Edit
+                          </button>
+
+                          <button
+                              type="button"
+                              className="delete-button"
+                              onClick={() => onDeleteEmployee(employee.id)}
+                          >
+                              Delete
+                          </button>
+                      </div>
                   </td>
               </tr>
           ))}

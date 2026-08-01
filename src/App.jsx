@@ -9,6 +9,7 @@ import './App.css'
 function App() {
   const [activeView, setActiveView] = useState('employees')
   const [isEmployeeFormOpen, setIsEmployeeFormOpen] = useState(false)
+  const [editingEmployee, setEditingEmployee] = useState(null)
 
   //const [employees] = useState(initialEmployees)
   const [employees, setEmployees] = useState(() => {
@@ -27,12 +28,23 @@ function App() {
     localStorage.setItem('employees', JSON.stringify(employees))
   }, [employees])
 
-  function handleAddEmployee(newEmployee) {
-    setEmployees((currentEmployees) => [
-      ...currentEmployees,
-      newEmployee,
-    ])
+  function handleSaveEmployee(employeeData) {
+    if (editingEmployee) {
+      setEmployees((currentEmployees) =>
+        currentEmployees.map((employee) =>
+          employee.id === employeeData.id
+            ? employeeData
+            : employee
+        )
+      )
+    } else {
+      setEmployees((currentEmployees) => [
+        ...currentEmployees,
+        employeeData,
+      ])
+    }
 
+    setEditingEmployee(null)
     setIsEmployeeFormOpen(false)
   }
 
@@ -40,6 +52,16 @@ function App() {
     setEmployees((currentEmployees) =>
       currentEmployees.filter((employee) => employee.id !== employeeId)
     )
+  }
+
+  function handleEditEmployee(employee) {
+    setEditingEmployee(employee)
+    setIsEmployeeFormOpen(true)
+  }
+
+  function handleCloseEmployeeForm() {
+    setEditingEmployee(null)
+    setIsEmployeeFormOpen(false)
   }
 
   return (
@@ -77,8 +99,15 @@ function App() {
           <button
             className="primary-button"
             onClick={() => {
-              if (isEmployees) {
-                setIsEmployeeFormOpen((currentValue) => !currentValue)
+              if (!isEmployees) {
+                return
+              }
+
+              if (isEmployeeFormOpen) {
+                handleCloseEmployeeForm()
+              } else {
+                setEditingEmployee(null)
+                setIsEmployeeFormOpen(true)
               }
             }}
           >
@@ -95,11 +124,17 @@ function App() {
           {isEmployees ? (
             <>
               {isEmployeeFormOpen && (
-                <AddEmployeeForm onAddEmployee={handleAddEmployee} />
+                <AddEmployeeForm
+                  key={editingEmployee?.id ?? 'new'}
+                  employee={editingEmployee}
+                  onSaveEmployee={handleSaveEmployee}
+                  onCancel={handleCloseEmployeeForm}
+                />
               )}
 
               <EmployeesTable
                 employees={employees}
+                onEditEmployee={handleEditEmployee}
                 onDeleteEmployee={handleDeleteEmployee}
               />
             </>
