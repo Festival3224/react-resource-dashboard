@@ -67,7 +67,7 @@ function App() {
   return (
     <div className="dashboard">
       <aside className="sidebar">
-        <h1>Outsource Dashboard</h1>
+        <h1>ResourceFlow</h1>
 
         <nav>
            <button
