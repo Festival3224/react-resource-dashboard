@@ -4,6 +4,7 @@ import { initialEmployees } from './data/employees'
 import ProjectsTable from './components/ProjectsTable'
 import { initialProjects } from './data/projects'
 import AddEmployeeForm from './components/AddEmployeeForm'
+import Modal from './components/Modal'
 import './App.css'
 
 function App() {
@@ -11,7 +12,6 @@ function App() {
   const [isEmployeeFormOpen, setIsEmployeeFormOpen] = useState(false)
   const [editingEmployee, setEditingEmployee] = useState(null)
 
-  //const [employees] = useState(initialEmployees)
   const [employees, setEmployees] = useState(() => {
     const savedEmployees = localStorage.getItem('employees')
 
@@ -64,24 +64,25 @@ function App() {
     setIsEmployeeFormOpen(false)
   }
 
-  return (
+ return (
+  <>
     <div className="dashboard">
       <aside className="sidebar">
         <h1>ResourceFlow</h1>
 
         <nav>
-           <button
-             className={`nav-button ${isEmployees ? 'active' : ''}`}
-             onClick={() => setActiveView('employees')}
-           >
+          <button
+            className={`nav-button ${isEmployees ? 'active' : ''}`}
+            onClick={() => setActiveView('employees')}
+          >
             Employees
-           </button>
+          </button>
 
           <button
             className={`nav-button ${!isEmployees ? 'active' : ''}`}
             onClick={() => {
               setActiveView('projects')
-              setIsEmployeeFormOpen(false)
+              handleCloseEmployeeForm()
             }}
           >
             Projects
@@ -93,7 +94,7 @@ function App() {
         <header className="page-header">
           <div>
             <p className="eyebrow">Resource management</p>
-            <h2>Employees</h2>
+            <h2>{isEmployees ? 'Employees' : 'Projects'}</h2>
           </div>
 
           <button
@@ -117,35 +118,37 @@ function App() {
                 : 'Add employee'
               : 'Add project'}
           </button>
-
         </header>
 
         <section className="content-card">
           {isEmployees ? (
-            <>
-              {isEmployeeFormOpen && (
-                <AddEmployeeForm
-                  key={editingEmployee?.id ?? 'new'}
-                  employee={editingEmployee}
-                  onSaveEmployee={handleSaveEmployee}
-                  onCancel={handleCloseEmployeeForm}
-                />
-              )}
-
-              <EmployeesTable
-                employees={employees}
-                onEditEmployee={handleEditEmployee}
-                onDeleteEmployee={handleDeleteEmployee}
-              />
-            </>
+            <EmployeesTable
+              employees={employees}
+              onEditEmployee={handleEditEmployee}
+              onDeleteEmployee={handleDeleteEmployee}
+            />
           ) : (
             <ProjectsTable projects={projects} />
           )}
         </section>
-
       </main>
     </div>
-  )
+
+    {isEmployeeFormOpen && (
+      <Modal
+        title={editingEmployee ? 'Edit employee' : 'Add employee'}
+        onClose={handleCloseEmployeeForm}
+      >
+        <AddEmployeeForm
+          key={editingEmployee?.id ?? 'new'}
+          employee={editingEmployee}
+          onSaveEmployee={handleSaveEmployee}
+          onCancel={handleCloseEmployeeForm}
+        />
+      </Modal>
+    )}
+  </>
+)
 }
 
 export default App
